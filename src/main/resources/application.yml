@@ -1,6 +1,4 @@
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 9898
-      database: testing
+      uri: mongodb+srv://m220student:m220password@mflix.mhcbz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
