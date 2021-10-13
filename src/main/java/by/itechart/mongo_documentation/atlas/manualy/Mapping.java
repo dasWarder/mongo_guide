@@ -10,7 +10,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -21,9 +23,11 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class Mapping {
 
+    private static final String dbUri = "mongodb+srv://m220student:m220password@mflix.mhcbz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
     public static void main(String[] args) {
 
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://m220student:m220password@mflix.mhcbz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+        ConnectionString connectionString = new ConnectionString(dbUri);
         CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
         MongoClientSettings clientSettings = MongoClientSettings.builder()
@@ -45,7 +49,6 @@ public class Mapping {
 
             Grade receivedGrade = grades.find(eq("student_id", 1d)).first();
             System.out.println("RECEIVED GRADE: " + receivedGrade);
-
 
         }
     }
