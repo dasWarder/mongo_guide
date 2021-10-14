@@ -1,4 +1,4 @@
-package by.itechart.mongo_documentation.atlas.spring.service;
+package by.itechart.mongo_documentation.atlas.spring.service.mongoRepo;
 
 import by.itechart.mongo_documentation.atlas.spring.exception.GroceryItemNotFoundException;
 import by.itechart.mongo_documentation.atlas.spring.model.GroceryItem;

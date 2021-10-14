@@ -1,4 +1,4 @@
-package by.itechart.mongo_documentation.atlas.spring.repository;
+package by.itechart.mongo_documentation.atlas.spring.repository.mongoRepo;
 
 import by.itechart.mongo_documentation.atlas.spring.model.GroceryItem;
 import org.springframework.data.mongodb.repository.MongoRepository;

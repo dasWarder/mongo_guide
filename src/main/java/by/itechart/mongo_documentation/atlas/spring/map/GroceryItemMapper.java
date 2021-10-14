@@ -28,7 +28,7 @@ public class GroceryItemMapper {
       GroceryItem groceryItem) {
 
     log.info("Map a groceryItem object to a groceryItem details object");
-
+    
     GroceryItemDetailsResponse response =
         GroceryItemDetailsResponse.builder()
             .id(groceryItem.getId())

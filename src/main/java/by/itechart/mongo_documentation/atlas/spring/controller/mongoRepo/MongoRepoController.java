@@ -1,11 +1,11 @@
-package by.itechart.mongo_documentation.atlas.spring.controller;
+package by.itechart.mongo_documentation.atlas.spring.controller.mongoRepo;
 
 import by.itechart.mongo_documentation.atlas.spring.dto.GroceryItemDetailsResponse;
 import by.itechart.mongo_documentation.atlas.spring.dto.StoreGroceryItemRequest;
 import by.itechart.mongo_documentation.atlas.spring.exception.GroceryItemNotFoundException;
 import by.itechart.mongo_documentation.atlas.spring.map.GroceryItemMapper;
 import by.itechart.mongo_documentation.atlas.spring.model.GroceryItem;
-import by.itechart.mongo_documentation.atlas.spring.service.GroceryItemService;
+import by.itechart.mongo_documentation.atlas.spring.service.mongoRepo.GroceryItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/items")
-public class MainController {
+@RequestMapping("/api/v1/repo/items")
+public class MongoRepoController {
 
   private final GroceryItemMapper mapper;
 
@@ -34,8 +34,8 @@ public class MainController {
     return ResponseEntity.created(URI.create("http://localhost:8080/api/v1/items")).body(response);
   }
 
-  @GetMapping("/{name}")
-  public ResponseEntity<GroceryItemDetailsResponse> getItemByName(@PathVariable("name") String name)
+  @GetMapping
+  public ResponseEntity<GroceryItemDetailsResponse> getItemByName(@RequestParam("name") String name)
       throws GroceryItemNotFoundException {
 
     GroceryItem itemByName = groceryItemService.getItemByName(name);
@@ -44,7 +44,7 @@ public class MainController {
     return ResponseEntity.ok(fetched);
   }
 
-  @GetMapping
+  @GetMapping("/find")
   public ResponseEntity<List<GroceryItemDetailsResponse>> getItemsByCategory(
       @RequestParam("category") String category) {
 
@@ -75,8 +75,8 @@ public class MainController {
     return ResponseEntity.ok(items);
   }
 
-  @DeleteMapping("/{name}")
-  public ResponseEntity<Void> deleteItemByName(@PathVariable("name") String name) {
+  @DeleteMapping
+  public ResponseEntity<Void> deleteItemByName(@RequestParam("name") String name) {
 
     groceryItemService.deleteItemByName(name);
 
