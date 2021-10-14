@@ -32,7 +32,7 @@ public class CustomGroceryItemRepositoryImpl implements CustomGroceryItemReposit
   }
 
   @Override
-  public GroceryItem updateItem(String name, GroceryItem item) throws GroceryItemNotFoundException {
+  public GroceryItem updateItem(String name, GroceryItem item) {
 
     log.info("Update a grocery item with the name = {}", name);
 
@@ -61,7 +61,7 @@ public class CustomGroceryItemRepositoryImpl implements CustomGroceryItemReposit
 
     GroceryItem item = mongoTemplate.findOne(query, GroceryItem.class);
 
-    if( Objects.isNull(item)) {
+    if (Objects.isNull(item)) {
       return Optional.ofNullable(null);
     }
 
@@ -87,5 +87,36 @@ public class CustomGroceryItemRepositoryImpl implements CustomGroceryItemReposit
     Query query = new Query(Criteria.where("category").is(category));
 
     return mongoTemplate.find(query, GroceryItem.class);
+  }
+
+  @Override
+  public GroceryItem updateItemsQuantityByNameAndCategory(
+      String name, String category, Integer quantity) {
+
+    log.info(
+        "Update an item quantity on = {} for the item with the name = {} and the category = {}",
+        quantity,
+        name,
+        category);
+
+    Query query = new Query(Criteria.where("name").is(name).and("category").is(category));
+
+    Update update = new Update();
+    update.set("quantity", quantity);
+
+    UpdateResult updateResult = mongoTemplate.updateFirst(query, update, GroceryItem.class);
+
+    log.info("Updated result count: {}", updateResult.getModifiedCount());
+
+    query =
+        new Query(
+            Criteria.where("name")
+                .is(name)
+                .and("category")
+                .is(category)
+                .and("quantity")
+                .is(quantity));
+
+    return mongoTemplate.findOne(query, GroceryItem.class);
   }
 }

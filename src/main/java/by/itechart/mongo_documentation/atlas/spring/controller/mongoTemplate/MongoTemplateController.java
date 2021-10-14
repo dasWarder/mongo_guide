@@ -77,4 +77,16 @@ public class MongoTemplateController {
 
     return ResponseEntity.noContent().build();
   }
+
+  @PutMapping("/update")
+  public ResponseEntity<GroceryItemDetailsResponse> updateItemByNameAndCategory(
+      @RequestParam("name") String name,
+      @RequestParam("category") String category,
+      @RequestParam("quantity") Integer quantity) {
+
+    GroceryItem groceryItem = groceryItemService.updateItemsQuantityByNameAndCategory(name, category, quantity);
+    GroceryItemDetailsResponse response = mapper.groceryItemToGroceryItemDetailsResponse(groceryItem);
+
+    return ResponseEntity.ok(response);
+  }
 }

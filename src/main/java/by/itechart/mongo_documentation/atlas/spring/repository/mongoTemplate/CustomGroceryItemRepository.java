@@ -10,11 +10,13 @@ public interface CustomGroceryItemRepository {
 
     GroceryItem saveItem(GroceryItem item);
 
-    GroceryItem updateItem(String name, GroceryItem item) throws GroceryItemNotFoundException;
+    GroceryItem updateItem(String name, GroceryItem item);
 
     Optional<GroceryItem> getItemByName(String name);
 
     void deleteGroceryItem(String name);
 
     List<GroceryItem> findItemsByCategory(String category);
+
+    GroceryItem updateItemsQuantityByNameAndCategory(String name, String category, Integer quantity);
 }
