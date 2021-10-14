@@ -9,37 +9,66 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class GroceryItemServiceImpl implements GroceryItemService {
 
-    private final GroceryItemRepository groceryItemRepository;
+  private final GroceryItemRepository groceryItemRepository;
 
-    @Override
-    public GroceryItem saveItem(GroceryItem groceryItem) {
+  @Override
+  public GroceryItem saveItem(GroceryItem groceryItem) {
 
-        log.info("Store a new grocery item");
+    log.info("Store a new grocery item");
 
-        return groceryItemRepository.save(groceryItem);
-    }
+    return groceryItemRepository.save(groceryItem);
+  }
 
-    @Override
-    public GroceryItem getItemByName(String name) throws GroceryItemNotFoundException {
+  @Override
+  public List<GroceryItem> updateCategory(String oldCategory, String category) {
 
-        log.info("Fetch a grocery item by name = {}", name);
+    log.info("Update all groceryItems by category");
 
-        return groceryItemRepository.getGroceryItemByName(name)
-                .orElseThrow(() -> new GroceryItemNotFoundException(
-                        String.format("A groceryItem with the name = %s is not found", name)));
-    }
+    List<GroceryItem> items = groceryItemRepository.findAllByCategory(oldCategory);
+    items.stream().forEach(i -> i.setCategory(category));
 
-    @Override
-    public List<GroceryItem> findItemsByCategory(String category) {
+    return groceryItemRepository.saveAll(items);
+  }
 
-        log.info("Fetch a collection of grocery items by the category = {}", category);
+  @Override
+  public GroceryItem getItemByName(String name) throws GroceryItemNotFoundException {
 
-        return groceryItemRepository.findAllByCategory(category);
-    }
+    log.info("Fetch a grocery item by the name = {}", name);
+
+    return groceryItemRepository
+        .getGroceryItemByName(name)
+        .orElseThrow(
+            () ->
+                new GroceryItemNotFoundException(
+                    String.format("A groceryItem with the name = %s is not found", name)));
+  }
+
+  @Override
+  public List<GroceryItem> findItemsByCategory(String category) {
+
+    log.info("Fetch a collection of grocery items by the category = {}", category);
+
+    return groceryItemRepository.findAllByCategory(category);
+  }
+
+  @Override
+  public void deleteItemByName(String name) {
+
+    log.info("Delete a grocery item by the name = {}", name);
+
+    groceryItemRepository.deleteByName(name);
+  }
+
+  @Override
+  public Long count() {
+
+    log.info("Fetch count");
+
+    return groceryItemRepository.count();
+  }
 }

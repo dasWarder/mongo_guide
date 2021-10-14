@@ -14,13 +14,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Grade {
 
-    private ObjectId id;
+  private ObjectId id;
 
-    @BsonProperty(value = "class_id")
-    private Double classId;
+  @BsonProperty(value = "class_id")
+  private Double classId;
 
-    private List<Score> scores;
+  private List<Score> scores;
 
-    @BsonProperty(value = "student_id")
-    private Double studentId;
+  @BsonProperty(value = "student_id")
+  private Double studentId;
 }

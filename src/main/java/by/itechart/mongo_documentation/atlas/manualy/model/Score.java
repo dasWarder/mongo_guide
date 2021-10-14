@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Score {
 
-    private String type;
+  private String type;
 
-    private Double score;
+  private Double score;
 }

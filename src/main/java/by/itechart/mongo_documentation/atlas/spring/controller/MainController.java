@@ -19,37 +19,67 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/items")
 public class MainController {
 
-    private final GroceryItemMapper mapper;
+  private final GroceryItemMapper mapper;
 
-    private final GroceryItemService groceryItemService;
+  private final GroceryItemService groceryItemService;
 
-    @PostMapping
-    public ResponseEntity<GroceryItemDetailsResponse> saveItem(@RequestBody StoreGroceryItemRequest request) {
+  @PostMapping
+  public ResponseEntity<GroceryItemDetailsResponse> saveItem(
+      @RequestBody StoreGroceryItemRequest request) {
 
-        GroceryItem groceryItem = mapper.storeGroceryItemRequestToGroceryItem(request);
-        GroceryItem stored = groceryItemService.saveItem(groceryItem);
-        GroceryItemDetailsResponse response = mapper.groceryItemToGroceryItemDetailsResponse(stored);
+    GroceryItem groceryItem = mapper.storeGroceryItemRequestToGroceryItem(request);
+    GroceryItem stored = groceryItemService.saveItem(groceryItem);
+    GroceryItemDetailsResponse response = mapper.groceryItemToGroceryItemDetailsResponse(stored);
 
-        return ResponseEntity.created(URI.create("http://localhost:8080/api/v1/items")).body(response);
-    }
+    return ResponseEntity.created(URI.create("http://localhost:8080/api/v1/items")).body(response);
+  }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<GroceryItemDetailsResponse> getItemByName(@PathVariable("name") String name) throws GroceryItemNotFoundException {
+  @GetMapping("/{name}")
+  public ResponseEntity<GroceryItemDetailsResponse> getItemByName(@PathVariable("name") String name)
+      throws GroceryItemNotFoundException {
 
-        GroceryItem itemByName = groceryItemService.getItemByName(name);
-        GroceryItemDetailsResponse fetched = mapper.groceryItemToGroceryItemDetailsResponse(itemByName);
+    GroceryItem itemByName = groceryItemService.getItemByName(name);
+    GroceryItemDetailsResponse fetched = mapper.groceryItemToGroceryItemDetailsResponse(itemByName);
 
-        return ResponseEntity.ok(fetched);
-    }
+    return ResponseEntity.ok(fetched);
+  }
 
-    @GetMapping
-    public ResponseEntity<List<GroceryItemDetailsResponse>> getItemsByCategory(@RequestParam("category") String category) {
+  @GetMapping
+  public ResponseEntity<List<GroceryItemDetailsResponse>> getItemsByCategory(
+      @RequestParam("category") String category) {
 
-        List<GroceryItemDetailsResponse> items = groceryItemService.findItemsByCategory(category)
-                .stream()
-                .map(mapper::groceryItemToGroceryItemDetailsResponse)
-                .collect(Collectors.toList());
+    List<GroceryItemDetailsResponse> items =
+        groceryItemService.findItemsByCategory(category).stream()
+            .map(mapper::groceryItemToGroceryItemDetailsResponse)
+            .collect(Collectors.toList());
 
-        return ResponseEntity.ok(items);
-    }
+    return ResponseEntity.ok(items);
+  }
+
+  @GetMapping("/count")
+  public ResponseEntity<Long> count() {
+
+    Long count = groceryItemService.count();
+
+    return ResponseEntity.ok(count);
+  }
+
+  @PutMapping
+  public ResponseEntity<List<GroceryItemDetailsResponse>> updateCategory(
+      @RequestParam("oldCategory") String oldCategory, @RequestParam("category") String category) {
+
+    List<GroceryItemDetailsResponse> items =
+        groceryItemService.updateCategory(oldCategory, category).stream()
+            .map(mapper::groceryItemToGroceryItemDetailsResponse)
+            .collect(Collectors.toList());
+    return ResponseEntity.ok(items);
+  }
+
+  @DeleteMapping("/{name}")
+  public ResponseEntity<Void> deleteItemByName(@PathVariable("name") String name) {
+
+    groceryItemService.deleteItemByName(name);
+
+    return ResponseEntity.noContent().build();
+  }
 }

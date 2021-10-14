@@ -7,9 +7,15 @@ import java.util.List;
 
 public interface GroceryItemService {
 
-    GroceryItem saveItem(GroceryItem groceryItem);
+  GroceryItem saveItem(GroceryItem groceryItem);
 
-    GroceryItem getItemByName(String name) throws GroceryItemNotFoundException;
+  List<GroceryItem> updateCategory(String oldCategory, String category);
 
-    List<GroceryItem> findItemsByCategory(String category);
+  GroceryItem getItemByName(String name) throws GroceryItemNotFoundException;
+
+  List<GroceryItem> findItemsByCategory(String category);
+
+  void deleteItemByName(String name);
+
+  Long count();
 }

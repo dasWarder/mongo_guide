@@ -14,12 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "groceryitems")
 public class GroceryItem {
 
-    @Id
-    private String id;
+  @Id private String id;
 
-    private String name;
+  private String name;
 
-    private Integer quantity;
+  private Integer quantity;
 
-    private String category;
+  private String category;
 }

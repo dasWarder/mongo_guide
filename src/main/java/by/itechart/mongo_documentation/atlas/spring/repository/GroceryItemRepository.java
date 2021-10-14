@@ -9,10 +9,12 @@ import java.util.Optional;
 
 public interface GroceryItemRepository extends MongoRepository<GroceryItem, String> {
 
-    Optional<GroceryItem> getGroceryItemByName(String name);
+  Optional<GroceryItem> getGroceryItemByName(String name);
 
-    @Query(fields = "{ 'name': 1, 'quantity': 1 }")
-    List<GroceryItem> findAllByCategory(String category);
+  @Query(fields = "{ 'name': 1, 'quantity': 1 }")
+  List<GroceryItem> findAllByCategory(String category);
 
-    long count();
+  long count();
+
+  void deleteByName(String name);
 }

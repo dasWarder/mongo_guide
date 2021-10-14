@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StoreGroceryItemRequest {
 
-    private String name;
+  private String name;
 
-    private Integer quantity;
+  private Integer quantity;
 
-    private String category;
+  private String category;
 }
