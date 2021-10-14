@@ -18,4 +18,6 @@ public interface CustomGroceryItemService {
   List<GroceryItem> findItemsByCategory(String category);
 
   GroceryItem updateItemsQuantityByNameAndCategory(String name, String category, Integer quantity);
+
+  List<GroceryItem> findItemsByCategoryLikeAndQuantityGreaterThat(String category, Integer quantity);
 }

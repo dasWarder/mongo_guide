@@ -1,11 +1,11 @@
 package by.itechart.mongo_documentation.atlas.spring.repository.mongoTemplate;
 
-import by.itechart.mongo_documentation.atlas.spring.exception.GroceryItemNotFoundException;
 import by.itechart.mongo_documentation.atlas.spring.model.GroceryItem;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -118,5 +118,20 @@ public class CustomGroceryItemRepositoryImpl implements CustomGroceryItemReposit
                 .is(quantity));
 
     return mongoTemplate.findOne(query, GroceryItem.class);
+  }
+
+  @Override
+  public List<GroceryItem> findItemsByCategoryLikeAndQuantityGreaterThat(
+      String category, Integer quantity) {
+
+    log.info(
+        "Fetch a collection of grocery items by the category like = {} and a quantity GT {}",
+        category,
+        quantity);
+
+    Query query =
+        new Query(Criteria.where("category").regex(category).and("quantity").gt(quantity));
+
+    return mongoTemplate.find(query, GroceryItem.class);
   }
 }

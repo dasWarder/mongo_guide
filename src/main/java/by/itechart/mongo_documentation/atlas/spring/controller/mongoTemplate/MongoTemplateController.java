@@ -84,9 +84,26 @@ public class MongoTemplateController {
       @RequestParam("category") String category,
       @RequestParam("quantity") Integer quantity) {
 
-    GroceryItem groceryItem = groceryItemService.updateItemsQuantityByNameAndCategory(name, category, quantity);
-    GroceryItemDetailsResponse response = mapper.groceryItemToGroceryItemDetailsResponse(groceryItem);
+    GroceryItem groceryItem =
+        groceryItemService.updateItemsQuantityByNameAndCategory(name, category, quantity);
+    GroceryItemDetailsResponse response =
+        mapper.groceryItemToGroceryItemDetailsResponse(groceryItem);
 
     return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/filter")
+  public ResponseEntity<List<GroceryItemDetailsResponse>>
+      findItemsByCategoryLikeAndQuantityGreaterThat(
+          @RequestParam("category") String category, @RequestParam("quantity") Integer quantity) {
+
+    List<GroceryItemDetailsResponse> items =
+        groceryItemService
+            .findItemsByCategoryLikeAndQuantityGreaterThat(category, quantity)
+            .stream()
+            .map(mapper::groceryItemToGroceryItemDetailsResponse)
+            .collect(Collectors.toList());
+
+    return ResponseEntity.ok(items);
   }
 }

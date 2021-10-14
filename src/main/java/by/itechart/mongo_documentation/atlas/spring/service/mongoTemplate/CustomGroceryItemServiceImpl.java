@@ -91,4 +91,18 @@ public class CustomGroceryItemServiceImpl implements CustomGroceryItemService {
 
     return groceryItemRepository.updateItemsQuantityByNameAndCategory(name, category, quantity);
   }
+
+  @Override
+  public List<GroceryItem> findItemsByCategoryLikeAndQuantityGreaterThat(
+      String category, Integer quantity) {
+
+    log.info(
+        "Check correctness of the params category = {} and quantity = {} before fetching a collection of groceryItem objects",
+        category,
+        quantity);
+    Assert.notNull(category, "The category must be not null");
+    Assert.notNull(quantity, "The quantity must be not null");
+
+    return groceryItemRepository.findItemsByCategoryLikeAndQuantityGreaterThat(category, quantity);
+  }
 }
